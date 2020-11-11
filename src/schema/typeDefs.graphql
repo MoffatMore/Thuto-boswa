@@ -1,0 +1,61 @@
+type Query {
+  hello(name: String): String
+  getAnnouncements: [Announcement]
+  getNotes(userId: String!): [Note]
+  getUsers: UserRes
+  me: User
+}
+
+type Mutation {
+  register(
+    fullName: String!
+    schoolName: String!
+    omang: String!
+    location: String!
+    password: String!
+    role: String
+  ): Response
+  login(omang: String!, password: String!): Response
+  createNote(userId: String!, title: String!, description: String): Note
+  createAnnouncement(userId: String!, title: String!, description: String): Announcement
+}
+
+
+type UserRes {
+  users: [User]
+  error: Error
+}
+
+type Error {
+  path: String!
+  message: String!
+}
+
+type Response {
+  error: Error
+  token: String
+  user: User
+}
+
+type Note {
+  id: String
+  title: String
+  description: String
+}
+
+type Announcement {
+  id: String
+  title: String
+  description: String
+}
+
+type User {
+  id: String
+  fullName: String
+  location: String
+  schoolName: String
+  omang: String
+  role: String
+  token: String
+  notes: [Note]
+}
