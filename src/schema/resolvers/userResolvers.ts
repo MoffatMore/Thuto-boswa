@@ -59,7 +59,7 @@ async function getAnnouncements(_, {}, ) {
 /* --------------------REGISTER-------------------------- */
 
 async function register(_, {
-  fullName, password, omang, location, schoolName }) {
+  fullName, password, omang, location, schoolName, role }) {
   const userName = await User.findOne({ omang });
   if (userName) return returnError('ID', DUPLICATE_USER('name'));
 
@@ -67,13 +67,25 @@ async function register(_, {
   if (userExist) return returnError('ID', DUPLICATE_USER('email'));
 
   const hashedPassword = await hash(password, 10);
-  const user = await User.create({
-    fullName: fullName,
-    password: hashedPassword,
-    omang:omang,
-    location: location,
-    schoolName:schoolName
-  }).save();
+  let user;
+  if(role != null){
+    user = await User.create({
+      fullName: fullName,
+      password: hashedPassword,
+      omang:omang,
+      location: location,
+      schoolName:schoolName,
+      role: role
+    }).save();
+  }else{
+    user = await User.create({
+      fullName: fullName,
+      password: hashedPassword,
+      omang:omang,
+      location: location,
+      schoolName:schoolName,
+    }).save();
+  }
 
   return { user };
 }
