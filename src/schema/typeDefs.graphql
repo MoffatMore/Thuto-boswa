@@ -18,6 +18,8 @@ type Mutation {
   login(omang: String!, password: String!): Response
   createNote(userId: String!, title: String!, description: String): Note
   createAnnouncement(userId: String!, title: String!, description: String): Announcement
+  verify(omang: String!): Response
+  reset(omang: String!, password: String!): Response
 }
 
 

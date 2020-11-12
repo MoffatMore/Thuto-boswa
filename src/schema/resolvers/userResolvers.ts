@@ -23,7 +23,9 @@ const resolvers = {
     register,
     login,
     createNote,
-    createAnnouncement
+    createAnnouncement,
+    reset,
+    verify
   },
 };
 
@@ -90,6 +92,15 @@ async function register(_, {
   return { user };
 }
 
+async function reset(_, { omang, password }) {
+  let user = await User.findOne({ omang });
+  const hashedPassword = await hash(password, 10);
+  if(user != null){
+    user.password = hashedPassword;
+    await user.save();
+  }
+  return { user };
+}
 /* ------------------------LOGIN------------------------------- */
 async function login(_, { omang, password }) {
   const userExist = await User.findOne({ omang });
@@ -98,6 +109,13 @@ async function login(_, { omang, password }) {
   const validPassword = await compare(password, userExist.password);
   if (!validPassword) return returnError('password', INVALID_PASSWORD);
   await userExist.save();
+  return { user: userExist};
+}
+
+async function verify(_, { omang }) {
+  const userExist = await User.findOne({ omang });
+  if (!userExist) return returnError('ID/Passport', NO_USER);
+  console.log('verify user')
   return { user: userExist};
 }
 
