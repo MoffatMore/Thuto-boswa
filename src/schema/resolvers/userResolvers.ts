@@ -115,7 +115,6 @@ async function login(_, { omang, password }) {
 async function verify(_, { omang }) {
   const userExist = await User.findOne({ omang });
   if (!userExist) return returnError('ID/Passport', NO_USER);
-  console.log('verify user')
   return { user: userExist};
 }
 
