@@ -25,7 +25,9 @@ const resolvers = {
     createNote,
     createAnnouncement,
     reset,
-    verify
+    verify,
+    deleteNote,
+    deleteAnnouncement
   },
 };
 
@@ -139,6 +141,32 @@ async function createNote(_, { userId, title, description },) {
   })
   await note.save()
   return note;
+}
+
+async function deleteNote(_,{ id }){
+  let note = await Note.findOne(id);
+  if(note != null){
+    await Note.delete(id);
+    return {
+      message: 'Successfully deleted a note'
+    }
+  }
+  return {
+    message: 'failed to delete a note'
+  }
+}
+
+async function deleteAnnouncement(_,{ id }){
+  let note = await Announcement.findOne(id);
+  if(note != null){
+    await Announcement.delete(id);
+    return {
+      message: 'Successfully deleted announcement'
+    }
+  }
+  return {
+    message: 'failed to delete announcement'
+  }
 }
 
 export default resolvers;

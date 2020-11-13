@@ -19,7 +19,9 @@ type Mutation {
   createNote(userId: String!, title: String!, description: String): Note
   createAnnouncement(userId: String!, title: String!, description: String): Announcement
   verify(omang: String!): Response
-  reset(omang: String!, password: String!): Response
+  reset(omang: String!, password: String!): Response,
+  deleteNote(id:String!): Error
+  deleteAnnouncement(id: String!): Error
 }
 
 
